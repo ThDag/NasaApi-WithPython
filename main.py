@@ -4,11 +4,10 @@ from PIL import Image
 import urllib.request
 import json
 
-def apod():
-    response = requests.request('GET', 'https://api.nasa.gov/planetary/apod?api_key=QMoyyZB2PMUVGv6VOSCYT2b8xxe9fKVgDXTB8X0j')
+def apod(api_key):
+    response = requests.request('GET', f'https://api.nasa.gov/planetary/apod?api_key={api_key}')
     urllib.request.urlretrieve(response.json()['url'], 'potd.jpg')
-    img = Image.open('potd.jpg')
-    img.show()
+    Image.open('potd.jpg')
 
 Criosity_cameras = {0: 'fhaz',
                     1: 'rhaz',
@@ -45,6 +44,7 @@ class Criosity:
 
 rover = Criosity(camera=2, date='2022-03-23', page=1)
 
-print('humber of images in the page: ',  rover.image_number())
-print(rover.show_image(0))
+# print('humber of images in the page: ',  rover.image_number())
+# print(rover.show_image(0))
 
+apod('DEMO_KEY')
