@@ -4,11 +4,6 @@ from PIL import Image
 import urllib.request
 import json
 
-def apod(api_key):
-    response = requests.request('GET', f'https://api.nasa.gov/planetary/apod?api_key={api_key}')
-    urllib.request.urlretrieve(response.json()['url'], 'potd.jpg')
-    Image.open('potd.jpg')
-
 Criosity_cameras = {0: 'fhaz',
                     1: 'rhaz',
                     2: 'mast',
@@ -16,6 +11,18 @@ Criosity_cameras = {0: 'fhaz',
                     4: 'mahli',
                     5: 'mardi',
                     6: 'navcam'}
+
+class main():
+    def __init__(self, api_key: str, save: bool = False, img_dir: str = '.'):
+        self.api_key = api_key
+        self.img_dir = img_dir + '/'
+        self.save = save
+
+    def apod(self, img_name: str = 'potd'): # TODO integrate main class
+        response = requests.request('GET', f'https://api.nasa.gov/planetary/apod?api_key={self.api_key}')
+        urllib.request.urlretrieve(response.json()['url'], f'{self.img_dir}./{img_name}.jpg')
+        Image.open('potd.jpg')
+
 
 class Criosity:
     def __init__(self, camera: int, date: str, page: int):
@@ -30,7 +37,7 @@ class Criosity:
         return len(self.response.json()['photos'])
 
 
-    def show_image(self, image_idx: int):
+    def show_image(self, image_idx: int): # add image download function with img_dir value ingtagration
         # print(json.dumps(parametres, indent=2))
         # response = requests.request('GET', url, params=parametres) 
         # print(response)
@@ -47,4 +54,5 @@ rover = Criosity(camera=2, date='2022-03-23', page=1)
 # print('humber of images in the page: ',  rover.image_number())
 # print(rover.show_image(0))
 
-apod('DEMO_KEY')
+apoding = main('DEMO_KEY')
+apoding.apod()
