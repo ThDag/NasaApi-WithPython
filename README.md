@@ -1,17 +1,27 @@
 # NASA APIs Python Extension
 
-## Making NASA APIs functions available thru simple CLI input with straight simple results.
+## Making NASA APIs functions available thru simple python classes and objects with straight simple results.
 
-1. [saving image](##Choosing-to-Save-image-or-not)
+1. [usage](##Usage)
 2. [setting image saving directory](##Setting-image-saving-directory)
 
 ## Usage
-write this place wip
+### Main Setting
+Main settings apply to every functions these are...
+- api_key  \
+  Takes Nasa Api key, default is DEMO_KEY, only takes string
 
-## Choosing to Save image or not
-Defining any variable the argument `save` takes True or False Default False. 
-- True: Saves file to the current working directory if [not set](##Setting-image-saving-directory)
-- False: Dosen't save file anywhere just gives string of the image link from NASA   
+- save  \
+  Chooses to Save Images or not, only takes True or False, if True will download images to img_dir if False will return urls
+
+- img_dir  \
+  Chooses where to save downlaoded images, only takes string, [How to use](##Setting-image-saving-directory)
+
+- img_name  \
+  Chooses name of the image name if image is singular, only takes string
+
+### Astronomy Picture Of the Day
+wip
 
 ## Setting image saving directory 
 Default saving directory is current working directory (.) While Chossing saving directory start from current working directory

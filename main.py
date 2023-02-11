@@ -1,4 +1,7 @@
 # TODO: use other functions of the api like cordinate image generator, nasa image galery, EPIC
+
+# print(json.dumps(response.json(), indent=2))
+
 import requests
 from PIL import Image 
 import urllib.request
@@ -6,20 +9,46 @@ import json
 
 Criosity_cameras = {0: 'fhaz', 1: 'rhaz', 2: 'mast', 3: 'chemcam', 4: 'mahli', 5: 'mardi', 6: 'navcam'}
 
-class Main():
-    def __init__(self, api_key: str, save: bool = False, img_dir: str = '.', img_name: str = 'potd'):
+# settings
+class Settings():
+    def __init__(self, api_key: str = 'DEMO_KEY', save: bool = False, img_dir: str = '.', img_name: str = 'potd'):
         self.api_key = api_key
         self.img_dir = img_dir + '/'
         self.save = save
         self.img_name = img_name
 
-    def apod(self): # TODO make its own class as said
+# Apod class
+class Apod(Settings):
+    
+    # Todays Astronomy picture of the day
+    def apod(self) -> None: 
         response = requests.request('GET', f'https://api.nasa.gov/planetary/apod?api_key={self.api_key}')
         urllib.request.urlretrieve(response.json()['url'], f'{self.img_dir}./{self.img_name}.jpg')
         Image.open('potd.jpg')
 
+    # Random Astronomy picture of the day with how many
+    def random(self, num: int = 1):
+        parametres = {'api_key': self.api_key, 'count': num}
+        response = requests.request('GET', params=parametres, url='https://api.nasa.gov/planetary/apod')
+        # saves images with there date as name
+        if self.save:
+            for idx, i in enumerate(response.json()):
+                # print('idx = ', idx)
+                url = response.json()[idx]['url']
+                date = response.json()[idx]['date']
+                urllib.request.urlretrieve(url, f'{self.img_dir}./{date}.jpg')
+        # gives list containing dict with date and url
+        else:
+            urls = list()
+            for i in response.json():
+                urls.append({i['date']: i['url']})
 
-class Criosity(Main):
+            return urls
+
+
+
+
+class Criosity(Settings):
     def __init__(self, camera: int, date: str, page: int):
         self.camera = Criosity_cameras.get(camera)
         self.date = date
@@ -46,15 +75,12 @@ class Criosity(Main):
             # print(json.dumps(image_data, indent=2))
 
             image_url = image_data['img_src']
-            # TODO: show the image
             return image_url     
 
-rover = Criosity(camera=2, date='2022-03-23', page=1)
-
+# rover = Criosity(camera=2, date='2022-03-23', page=1)
 # print('humber of images in the page: ',  rover.image_number())
 # print(rover.show_image(0))
 
-# TODO: make a apod class containing 1. given day of apod; if not givin today, 2. think what else about apod
 
-apoding = Main('DEMO_KEY')
-apoding.apod()
+# test = Apod()
+# test.random(2)
