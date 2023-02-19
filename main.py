@@ -29,8 +29,8 @@ class Apod(Settings):
     # Random Astronomy picture of the day with how many
     def random(self, num: int = 1):
         parametres = {'api_key': self.api_key, 'count': num}
-        response = requests.request('GET', params=parametres, url='https://api.nasa.gov/planetary/apod')
         # saves images with there date as name
+        response = requests.request('GET', params=parametres, url='https://api.nasa.gov/planetary/apod')
         if self.save:
             for idx, i in enumerate(response.json()):
                 # print('idx = ', idx)

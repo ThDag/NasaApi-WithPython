@@ -34,9 +34,6 @@ image_saver = main(api_key='DEMO_KEY', save=True, img_dir='../dir1/dir2')
 # in this case it saves the file to the dir2 inside dir1 one which is inside current working directories parent directory
 ```
 
-### Note
-Image Name cant be changed (for now)
-
 
 ## Credit
 Just me -> https://github.com/ThDag \
