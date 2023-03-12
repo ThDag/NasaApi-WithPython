@@ -1,4 +1,4 @@
-# TODO: use other functions of the api like cordinate image generator, nasa image galery, EPIC
+# TODO: 
 
 # print(json.dumps(response.json(), indent=2))
 
